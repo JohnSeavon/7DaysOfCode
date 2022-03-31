@@ -1,6 +1,5 @@
 /*
 #7DaysOfCode Challenge that consumes an API from IMDB
-The code executes an HTTP request and prints the response body to the console
 Create your API Key at: https://imdb-api.com/api
 Joao Novaes - GitHub: github.com/JohnSeavon
  */
@@ -17,8 +16,10 @@ public class Main {
     public static void main(String[] args) {
 
         try {
+            String apiKey = "yourAPIKey";
+
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://imdb-api.com/en/API/Top250Movies/<apiKey>"))
+                    .uri(URI.create("https://imdb-api.com/en/API/Top250Movies/" + apiKey))
                     .GET()
                     .build();
 
@@ -26,7 +27,15 @@ public class Main {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println(response.body());
+            String json = response.body().substring(response.body().indexOf("[") + 1, response.body().lastIndexOf("]"));
+
+            String topMovies = json.replace("},{", "},,{");
+
+            String[] moviesArray = topMovies.split(",,");
+
+            //testing if the code prints rank 1 from moviesArray
+            System.out.println(moviesArray[0]);
+
         }
         catch (RuntimeException e) {
             System.out.println("Unexpected Error: " + e.getMessage());

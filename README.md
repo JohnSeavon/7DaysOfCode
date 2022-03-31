@@ -2,9 +2,9 @@
 7DaysOfCode Challenge that consumes an API from IMDB: [Top250Movies](https://imdb-api.com/api#Top250Movies-header)
 
 - Day 1:
-  - ✔️ Created the Project.
-  - ✔️ Executes an HTTP request.
-  - ✔️ Prints the response body to the console.
+  - ✔️ Create a Project.
+  - ✔️ Execute an HTTP request.
+  - ✔️ Print the response body to the console.
 
 ## Technologies
 - ``Java 17``
