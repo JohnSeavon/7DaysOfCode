@@ -10,6 +10,8 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -33,8 +35,35 @@ public class Main {
 
             String[] moviesArray = topMovies.split(",,");
 
-            //testing if the code prints rank 1 from moviesArray
-            System.out.println(moviesArray[0]);
+            List<String> titles = new ArrayList<>();
+            List<String> urlImages = new ArrayList<>();
+            List<String> years = new ArrayList<>();
+            List<String> imDbRatings = new ArrayList<>();
+
+            for (String movies : moviesArray) {
+                String[] attribute = movies.split("\",\"");
+                titles.add(attribute[2].substring(attribute[2].indexOf(":\"") + 2));
+                urlImages.add(attribute[5].substring(attribute[5].indexOf(":\"") + 2));
+                years.add(attribute[4].substring(attribute[4].indexOf(":\"") + 2));
+                imDbRatings.add(attribute[7].substring(attribute[7].indexOf(":\"") + 2));
+            }
+
+            // Testing if it prints the list of titles of all the 250 movies
+            System.out.println();
+            int count = 1;
+            for (String x : titles) {
+                System.out.println("#" + count + ": " + x);
+                count += 1;
+            }
+            System.out.println();
+
+            // Testing any position from the lists
+            int position = 11;
+            System.out.println("#" + position + ": "
+                    + titles.get(position - 1)
+                    + ", Year: " + years.get(position - 1)
+                    + ", IMDb Rating: " + imDbRatings.get(position - 1)
+                    + ", Image: " + urlImages.get(position - 1));
 
         }
         catch (RuntimeException e) {

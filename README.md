@@ -5,6 +5,11 @@
   - ✔️ Create a Project.
   - ✔️ Execute an HTTP request.
   - ✔️ Print the response body to the console.
+- Day 2:
+  - ✔️ Split the JSON to get an array of movies.
+  - ✔️ Split the movie arrays to get different arrays of attributes of each movie
+  - ✔️ Create different lists of these attributes
+  - ✔️ Print the list of movie titles and test the lists of attributes
 
 ## Technologies
 - ``Java 17``
