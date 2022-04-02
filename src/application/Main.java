@@ -1,9 +1,11 @@
 /*
-#7DaysOfCode Challenge that consumes an API from IMDB
+#7DaysOfCode Challenge that consumes an API from IMDb
 Create your API Key at: https://imdb-api.com/api
 Joao Novaes - GitHub: github.com/JohnSeavon
  */
 package application;
+
+import entities.Movie;
 
 import java.io.IOException;
 import java.net.URI;
@@ -12,6 +14,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
 
@@ -29,41 +33,32 @@ public class Main {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            String json = response.body().substring(response.body().indexOf("[") + 1, response.body().lastIndexOf("]"));
+            String json = response.body();
 
-            String topMovies = json.replace("},{", "},,{");
+            String[] moviesArray = parseJsonMovies(json);
 
-            String[] moviesArray = topMovies.split(",,");
+            List<Movie> movies = new ArrayList<>();
 
-            List<String> titles = new ArrayList<>();
-            List<String> urlImages = new ArrayList<>();
-            List<String> years = new ArrayList<>();
-            List<String> imDbRatings = new ArrayList<>();
-
-            for (String movies : moviesArray) {
-                String[] attribute = movies.split("\",\"");
-                titles.add(attribute[2].substring(attribute[2].indexOf(":\"") + 2));
-                urlImages.add(attribute[5].substring(attribute[5].indexOf(":\"") + 2));
-                years.add(attribute[4].substring(attribute[4].indexOf(":\"") + 2));
-                imDbRatings.add(attribute[7].substring(attribute[7].indexOf(":\"") + 2));
+            for (String m : moviesArray) {
+                String title = parseAttribute(m, 2);
+                String urlImage = parseAttribute(m, 5);
+                String year = parseAttribute(m, 4);
+                String imDbRating = parseAttribute(m, 7);
+                movies.add(new Movie(title, urlImage, year, imDbRating));
             }
 
             // Testing if it prints the list of titles of all the 250 movies
             System.out.println();
             int count = 1;
-            for (String x : titles) {
-                System.out.println("#" + count + ": " + x);
+            for (Movie m : movies) {
+                System.out.println("#" + count + ": " + m.getTitle());
                 count += 1;
             }
             System.out.println();
 
             // Testing any position from the lists
             int position = 11;
-            System.out.println("#" + position + ": "
-                    + titles.get(position - 1)
-                    + ", Year: " + years.get(position - 1)
-                    + ", IMDb Rating: " + imDbRatings.get(position - 1)
-                    + ", Image: " + urlImages.get(position - 1));
+            System.out.println("#" + position + ": " + movies.get(position - 1));
 
         }
         catch (RuntimeException e) {
@@ -72,5 +67,24 @@ public class Main {
         catch (IOException | InterruptedException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private static String [] parseJsonMovies(String json) {
+        Matcher matcher = Pattern.compile(".*\\[(.*)\\].*").matcher(json);
+
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException("no match in " + json);
+        }
+
+        json = matcher.group(1);
+
+        String topMovies = json.replace("},{", "},,{");
+
+        return topMovies.split(",,");
+    }
+
+    private static String parseAttribute(String movie, int position) {
+        String[] attributes = movie.split("\",\"");
+        return attributes[position].substring(attributes[position].indexOf(":\"") + 2);
     }
 }

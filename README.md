@@ -10,6 +10,10 @@
   - ✔️ Split the movie arrays to get different arrays of attributes of each movie
   - ✔️ Create different lists of these attributes
   - ✔️ Print the list of movie titles and test the lists of attributes
+- Day 3:
+  - ✔️ Create a class to represent a movie and instantiate a list of movies
+  - ✔️ Implemented the classes Matcher and Pattern to manipulate the JSON
+  - ✔️ Converted some instructions to functions
 
 ## Technologies
 - ``Java 17``
