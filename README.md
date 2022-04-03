@@ -14,6 +14,9 @@
   - ✔️ Create a class to represent a movie and instantiate a list of movies
   - ✔️ Implemented the classes Matcher and Pattern to manipulate the JSON
   - ✔️ Converted some instructions to functions
+- Day 4:
+  - ✔️ Implement a class to generate a file of the HTML page with the list of movies
+  - ✔️ Updated the main class and parseJsonMovies function
 
 ## Technologies
 - ``Java 17``

@@ -5,9 +5,11 @@ Joao Novaes - GitHub: github.com/JohnSeavon
  */
 package application;
 
+import entities.HTMLGenerator;
 import entities.Movie;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpClient;
@@ -35,30 +37,22 @@ public class Main {
 
             String json = response.body();
 
-            String[] moviesArray = parseJsonMovies(json);
+            List<Movie> movies = parseJsonMovies(json);
 
-            List<Movie> movies = new ArrayList<>();
+            /*
+            // To print on the console the list of titles of all the 250 movies
 
-            for (String m : moviesArray) {
-                String title = parseAttribute(m, 2);
-                String urlImage = parseAttribute(m, 5);
-                String year = parseAttribute(m, 4);
-                String imDbRating = parseAttribute(m, 7);
-                movies.add(new Movie(title, urlImage, year, imDbRating));
-            }
-
-            // Testing if it prints the list of titles of all the 250 movies
             System.out.println();
             int count = 1;
             for (Movie m : movies) {
                 System.out.println("#" + count + ": " + m.getTitle());
                 count += 1;
             }
-            System.out.println();
+            */
 
-            // Testing any position from the lists
-            int position = 11;
-            System.out.println("#" + position + ": " + movies.get(position - 1));
+            PrintWriter writer = new PrintWriter("index.html");
+            HTMLGenerator.generate(writer, movies);
+            writer.close();
 
         }
         catch (RuntimeException e) {
@@ -69,8 +63,8 @@ public class Main {
         }
     }
 
-    private static String [] parseJsonMovies(String json) {
-        Matcher matcher = Pattern.compile(".*\\[(.*)\\].*").matcher(json);
+    private static List<Movie> parseJsonMovies(String json) {
+        Matcher matcher = Pattern.compile(".*\\[(.*)].*").matcher(json);
 
         if (!matcher.matches()) {
             throw new IllegalArgumentException("no match in " + json);
@@ -80,7 +74,19 @@ public class Main {
 
         String topMovies = json.replace("},{", "},,{");
 
-        return topMovies.split(",,");
+        String[] moviesArray = topMovies.split(",,");
+
+        List<Movie> movies = new ArrayList<>();
+
+        for (String m : moviesArray) {
+            String title = parseAttribute(m, 2);
+            String urlImage = parseAttribute(m, 5);
+            String year = parseAttribute(m, 4);
+            String imDbRating = parseAttribute(m, 7);
+            movies.add(new Movie(title, urlImage, year, imDbRating));
+        }
+
+        return movies;
     }
 
     private static String parseAttribute(String movie, int position) {

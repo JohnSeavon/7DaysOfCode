@@ -25,7 +25,6 @@ public class Movie {
         return year;
     }
 
-
     public String getImDbRating() {
         return imDbRating;
     }
