@@ -17,6 +17,9 @@
 - Day 4:
   - ✔️ Implement a class to generate a file of the HTML page with the list of movies
   - ✔️ Updated the main class and parseJsonMovies function
+- Day 5:
+  - ✔️ Encapsulate the API HTTP request in a new class
+  - ✔️ Encapsulate the Movie JSON parsing in a new class
 
 ## Technologies
 - ``Java 17``
