@@ -1,12 +1,14 @@
 package entities;
 
+import services.APIClient;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class ImdbApiClient {
+public class ImdbApiClient implements APIClient {
     private String apiKey;
 
     public ImdbApiClient(String apiKey) {

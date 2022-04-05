@@ -1,13 +1,15 @@
 package entities;
 
+import services.JsonParser;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ImdbMovieJsonParser {
+public class ImdbMovieJsonParser implements JsonParser {
 
-    public static List<Movie> parse(String json) {
+    public List<Movie> parse(String json) {
         Matcher matcher = Pattern.compile(".*\\[(.*)].*").matcher(json);
 
         if (!matcher.matches()) {

@@ -20,6 +20,9 @@
 - Day 5:
   - ✔️ Encapsulate the API HTTP request in a new class
   - ✔️ Encapsulate the Movie JSON parsing in a new class
+- Day 6:
+  - ✔️ Implement interfaces for a Content and a JsonParser
+  - ✔️ Implement an interface for a APIClient
 
 ## Technologies
 - ``Java 17``

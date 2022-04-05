@@ -8,7 +8,9 @@ package application;
 import entities.HTMLGenerator;
 import entities.ImdbApiClient;
 import entities.ImdbMovieJsonParser;
-import entities.Movie;
+import services.APIClient;
+import services.Content;
+import services.JsonParser;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,14 +23,15 @@ public class Main {
         try {
             String apiKey = "yourAPIKey";
 
-            String json = new ImdbApiClient(apiKey).getBody();
+            APIClient apiClient = new ImdbApiClient(apiKey);
+            String json = apiClient.getBody();
 
-            List<Movie> movies = ImdbMovieJsonParser.parse(json);
+            JsonParser parser = new ImdbMovieJsonParser();
+            List<? extends Content> movies = parser.parse(json);
 
             PrintWriter writer = new PrintWriter("index.html");
             HTMLGenerator.generate(writer, movies);
             writer.close();
-
         }
         catch (RuntimeException e) {
             System.out.println("Unexpected Error: " + e.getMessage());
@@ -36,5 +39,6 @@ public class Main {
         catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        System.out.println("Done!");
     }
 }
